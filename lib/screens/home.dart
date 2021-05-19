@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen>
     // TODO: implement initState
     super.initState();
     controller = AnimationController(
-      duration: Duration(seconds: 20),
+      duration: Duration(seconds: 25),
       vsync: this,
     );
     controller.addListener(() {
@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fuzzy Logic: Washing machine'),
+        title: Text('Logic mờ: Điều khiển máy giặt'),
         actions: [
           IconButton(
             icon: icon,
@@ -52,9 +52,6 @@ class _HomeScreenState extends State<HomeScreen>
                 controller.forward();
               } else if (controller.status == AnimationStatus.completed) {
                 controller.reverse();
-                // controller
-                //   ..reset()
-                //   ..forward();
               }
             },
           ),
@@ -89,6 +86,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                     ],
                   ),
+                  const SizedBox(height: 25),
                   BlocBuilder<WashingBloc, WashingState>(
                     builder: (context, state) {
                       return WashingChart(
@@ -112,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen>
                           Container(
                             width: 100,
                             padding: const EdgeInsets.only(left: 15),
-                            child: Text('Level of dirt:'),
+                            child: Text('Độ bẩn'),
                           ),
                           Expanded(
                             child: Slider(
@@ -149,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen>
                           Container(
                             width: 100,
                             padding: const EdgeInsets.only(left: 15),
-                            child: Text('Type of dirt:'),
+                            child: Text('Độ dầu mỡ:'),
                           ),
                           Expanded(
                             child: Slider(

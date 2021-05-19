@@ -22,15 +22,14 @@ class _WashingChartState extends State<WashingChart> {
         Container(
           width: 300,
           height: 300,
-          padding: EdgeInsets.all(SHOW_LABEL ? 10 : 1),
-          color: Colors.white,
+          padding: EdgeInsets.all(10),
           child: LineChart(lineChartData()),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              'Washing time: ${widget.state.wash.getTime.toStringAsFixed(4)}',
+              'Thời gian giặt: ${widget.state.wash.getTime.toStringAsFixed(4)} phút',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -49,7 +48,7 @@ class _WashingChartState extends State<WashingChart> {
                     },
                   ),
                 ),
-                Text('Fill')
+                Text('Phủ màu')
               ],
             )
           ],
@@ -65,7 +64,9 @@ class _WashingChartState extends State<WashingChart> {
       maxY: 1,
       minY: 0,
       backgroundColor: Colors.black,
-      lineTouchData: LineTouchData(enabled: false),
+      lineTouchData: LineTouchData(
+        enabled: true,
+      ),
       gridData: FlGridData(
         show: SHOW_GRID,
         drawVerticalLine: true,
@@ -73,14 +74,33 @@ class _WashingChartState extends State<WashingChart> {
         horizontalInterval: 1 / 6,
       ),
       titlesData: FlTitlesData(
-        show: SHOW_LABEL,
+        show: SHOW_WASHING_LABEL,
         leftTitles: SideTitles(
-          showTitles: false,
+          showTitles: SHOW_WASHING_LABEL,
+          getTextStyles: (value) => STYLE_LABEL,
+          margin: 5,
+          reservedSize: 0,
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '1';
+                break;
+              default:
+                return '';
+                break;
+            }
+          },
         ),
         bottomTitles: SideTitles(
-          showTitles: SHOW_LABEL,
+          showTitles: SHOW_WASHING_LABEL,
+          margin: 3,
+          reservedSize: 5,
+          getTextStyles: (value) => STYLE_LABEL,
           getTitles: (value) {
             switch ('${value.toStringAsFixed(1)}') {
+              case '0.0':
+                return '0';
+                break;
               case '$VS':
                 return '${value.toInt()}';
                 break;
@@ -97,9 +117,9 @@ class _WashingChartState extends State<WashingChart> {
                 return '${value.toInt()}';
                 break;
               default:
+                return '';
                 break;
             }
-            return '';
           },
         ),
       ),
@@ -259,7 +279,7 @@ class _WashingChartState extends State<WashingChart> {
       dotData: FlDotData(
         show: SHOW_POINT,
       ),
-      belowBarData: BarAreaData(show: showFill, colors: [Colors.white54]),
+      belowBarData: BarAreaData(show: showFill, colors: [FILL_COLOR]),
     );
   }
 
@@ -268,8 +288,8 @@ class _WashingChartState extends State<WashingChart> {
     final x1 = (S - VS) * y + VS;
     final alpha = (M - S) < (S - VS) ? (M - VS) / (S - VS) : (M - VS) / (M - S);
     final x2 = alpha * (M - S) * (1 - y) + x1;
-    print(
-        '{x1: ${x1.toStringAsFixed(2)}} , {x2: ${x2.toStringAsFixed(2)}} , {y: ${y.toStringAsFixed(2)}}');
+    // print(
+    //     '{x1: ${x1.toStringAsFixed(2)}} , {x2: ${x2.toStringAsFixed(2)}} , {y: ${y.toStringAsFixed(2)}}');
     final spots = showFill
         ? [
             FlSpot(VS, 0),
@@ -292,7 +312,7 @@ class _WashingChartState extends State<WashingChart> {
       dotData: FlDotData(
         show: SHOW_POINT,
       ),
-      belowBarData: BarAreaData(show: showFill, colors: [Colors.white54]),
+      belowBarData: BarAreaData(show: showFill, colors: [FILL_COLOR]),
     );
   }
 
@@ -326,7 +346,7 @@ class _WashingChartState extends State<WashingChart> {
       dotData: FlDotData(
         show: SHOW_POINT,
       ),
-      belowBarData: BarAreaData(show: showFill, colors: [Colors.white54]),
+      belowBarData: BarAreaData(show: showFill, colors: [FILL_COLOR]),
     );
   }
 
@@ -359,7 +379,7 @@ class _WashingChartState extends State<WashingChart> {
       dotData: FlDotData(
         show: SHOW_POINT,
       ),
-      belowBarData: BarAreaData(show: showFill, colors: [Colors.white54]),
+      belowBarData: BarAreaData(show: showFill, colors: [FILL_COLOR]),
     );
   }
 
@@ -388,7 +408,7 @@ class _WashingChartState extends State<WashingChart> {
       dotData: FlDotData(
         show: SHOW_POINT,
       ),
-      belowBarData: BarAreaData(show: showFill, colors: [Colors.white54]),
+      belowBarData: BarAreaData(show: showFill, colors: [FILL_COLOR]),
     );
   }
 
@@ -399,11 +419,11 @@ class _WashingChartState extends State<WashingChart> {
       baseMedium(),
       baseLong(),
       baseVeryLong(),
-      if (widget.state.wash.getVeryShort != 0) getVeryShort(),
-      if (widget.state.wash.getShort != 0) getShort(),
-      if (widget.state.wash.getMedium != 0) getMedium(),
-      if (widget.state.wash.getLong != 0) getLong(),
-      if (widget.state.wash.getVeryLong != 0) getVeryLong(),
+      getVeryShort(),
+      getShort(),
+      getMedium(),
+      getLong(),
+      getVeryLong(),
     ];
 
     return lines;

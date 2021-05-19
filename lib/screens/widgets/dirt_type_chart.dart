@@ -12,14 +12,14 @@ class DirtTypeChart extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
-          'Type of dirt',
+          'Độ dầu mỡ',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
         Container(
+          padding: EdgeInsets.all(10),
           height: MediaQuery.of(context).size.width / 2,
-          padding: const EdgeInsets.all(10),
           child: LineChart(lineChartData()),
         ),
       ],
@@ -40,7 +40,47 @@ class DirtTypeChart extends StatelessWidget {
         verticalInterval: 10,
         horizontalInterval: 0.1,
       ),
-      titlesData: FlTitlesData(show: false),
+      titlesData: FlTitlesData(
+        show: SHOW_WASHING_LABEL,
+        leftTitles: SideTitles(
+          showTitles: SHOW_WASHING_LABEL,
+          getTextStyles: (value) => STYLE_LABEL,
+          margin: 5,
+          reservedSize: 0,
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '1';
+                break;
+              default:
+                return '';
+                break;
+            }
+          },
+        ),
+        bottomTitles: SideTitles(
+          showTitles: SHOW_WASHING_LABEL,
+          margin: 3,
+          reservedSize: 5,
+          getTextStyles: (value) => STYLE_LABEL,
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 0:
+                return '0';
+                break;
+              case 50:
+                return '50';
+                break;
+              case 100:
+                return '100';
+                break;
+              default:
+                return '';
+                break;
+            }
+          },
+        ),
+      ),
       borderData: FlBorderData(
         show: true,
         border: Border.all(
@@ -176,9 +216,9 @@ class DirtTypeChart extends StatelessWidget {
       baseSmall(),
       baseMedium(),
       baseLarge(),
-      if (state.type.getNotGreasy != 0) getSmall(),
-      if (state.type.getMedium != 0) getMedium(),
-      if (state.type.getGreasy != 0) getLarge(),
+      getSmall(),
+      getMedium(),
+      getLarge(),
     ];
 
     return lines;
