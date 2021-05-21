@@ -5,7 +5,9 @@ import 'package:fuzzylogic/blocs/blocs.dart';
 import 'package:fuzzylogic/blocs/dirt_level/bloc.dart';
 import 'package:fuzzylogic/screens/widgets/dirt_level_chart.dart';
 import 'package:fuzzylogic/screens/widgets/dirt_type_chart.dart';
+import 'package:fuzzylogic/screens/widgets/powder_chart.dart';
 import 'package:fuzzylogic/screens/widgets/washing_chart.dart';
+import 'package:fuzzylogic/screens/widgets/water_chart.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -86,10 +88,26 @@ class _HomeScreenState extends State<HomeScreen>
                       ),
                     ],
                   ),
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 15),
                   BlocBuilder<WashingBloc, WashingState>(
                     builder: (context, state) {
                       return WashingChart(
+                        state: state,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  BlocBuilder<WashingBloc, WashingState>(
+                    builder: (context, state) {
+                      return WaterChart(
+                        state: state,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  BlocBuilder<WashingBloc, WashingState>(
+                    builder: (context, state) {
+                      return PowderChart(
                         state: state,
                       );
                     },

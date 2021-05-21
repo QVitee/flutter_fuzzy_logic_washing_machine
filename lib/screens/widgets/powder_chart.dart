@@ -3,43 +3,54 @@ import 'package:flutter/material.dart';
 import 'package:fuzzylogic/blocs/blocs.dart';
 import 'package:fuzzylogic/utils/chart.dart';
 
-class WashingChart extends StatefulWidget {
+class PowderChart extends StatefulWidget {
   final WashingState state;
-  WashingChart({this.state});
+  PowderChart({this.state});
 
   @override
-  _WashingChartState createState() => _WashingChartState();
+  _PowderChartState createState() => _PowderChartState();
 }
 
-class _WashingChartState extends State<WashingChart> {
+class _PowderChartState extends State<PowderChart> {
   bool showFill = SHOW_FILL;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Text(
-          'Thời gian giặt: ${widget.state.wash.getTime.toStringAsFixed(4)} (phút)',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              'Lượng nước giặt: ',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
           ),
-        ),
-        Container(
-          width: 265,
-          height: 265,
-          padding: EdgeInsets.all(10),
-          child: LineChart(lineChartData()),
-        ),
-      ],
+          Text(
+            '${widget.state.powder?.getPowder?.toStringAsFixed(4)} (ml)',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          // Container(
+          //   width: 265,
+          //   height: 265,
+          //   padding: EdgeInsets.all(10),
+          //   child: LineChart(lineChartData()),
+          // ),
+        ],
+      ),
     );
   }
 
   LineChartData lineChartData() {
     return LineChartData(
-      minX: 0,
-      maxX: 60,
+      minX: WATER_MIN.toDouble(),
+      maxX: WATER_MAX.toDouble(),
       maxY: 1,
       minY: 0,
       backgroundColor: Colors.black,

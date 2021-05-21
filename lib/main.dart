@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fuzzylogic/blocs/bloc_observer.dart';
 import 'package:fuzzylogic/blocs/blocs.dart';
 import 'package:fuzzylogic/screens/home.dart';
 import 'package:fuzzylogic/utils/color.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Bloc.observer = SimpleBlocObserver();
   runApp(MultiBlocProvider(providers: [
-    BlocProvider<DirtLevelBloc>(
-      create: (context) => DirtLevelBloc(),
-    ),
-    BlocProvider<DirtTypeBloc>(
-      create: (context) => DirtTypeBloc(),
-    ),
+    BlocProvider<DirtLevelBloc>(create: (context) => DirtLevelBloc()),
+    BlocProvider<DirtTypeBloc>(create: (context) => DirtTypeBloc()),
     BlocProvider<WashingBloc>(
       create: (context) => WashingBloc(
         levelBloc: BlocProvider.of<DirtLevelBloc>(context),
